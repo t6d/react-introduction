@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
-import ChecklistItem from './components/ChecklistItem';
+import Checklist, { ChecklistProps } from './components/Checklist';
+
+const defaultChecklistItems: ChecklistProps["items"] = [
+  { text: "Test", checked: false },
+  { text: "Test 2", checked: true },
+]
 
 function App() {
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checklistItems, setChecklistItems] = useState(defaultChecklistItems);
+  const updateChecklistItem: ChecklistProps["onChange"] = (item, index) => {
+    setChecklistItems([...checklistItems].fill(item, index, index + 1));
+  };
 
   return (
     <div className="App">
-      <ChecklistItem checked={checked} onChange={setChecked}>Test</ChecklistItem>
+      <Checklist items={checklistItems} onChange={updateChecklistItem} />
     </div>
   );
 }
