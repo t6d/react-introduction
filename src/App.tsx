@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ChecklistItem from './components/ChecklistItem';
 
 function App() {
+  const [checked, setChecked] = useState<boolean>(false);
+
   return (
     <div className="App">
-      Hello World!
+      <ChecklistItem checked={checked} onChange={setChecked}>Test</ChecklistItem>
     </div>
   );
 }
