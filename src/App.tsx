@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import Checklist, { ChecklistProps } from './components/Checklist';
+import reducer, { ChecklistItem } from './reducer';
 
 const defaultChecklistItems: ChecklistProps["items"] = [
   { text: "Test", checked: false },
@@ -7,14 +8,18 @@ const defaultChecklistItems: ChecklistProps["items"] = [
 ]
 
 function App() {
-  const [checklistItems, setChecklistItems] = useState(defaultChecklistItems);
-  const updateChecklistItem: ChecklistProps["onChange"] = (item, index) => {
-    setChecklistItems([...checklistItems].fill(item, index, index + 1));
-  };
+  const [state, dispatch] = useReducer(reducer, {
+    items: defaultChecklistItems
+  });
+
+  const updateChecklistItem = (item: ChecklistItem, index: number) => dispatch({
+    type: "UPDATE_CHECKLIST_ITEM",
+    payload: { item, index }
+  })
 
   return (
     <div className="App">
-      <Checklist items={checklistItems} onChange={updateChecklistItem} />
+      <Checklist items={state.items} onChange={updateChecklistItem} />
     </div>
   );
 }
